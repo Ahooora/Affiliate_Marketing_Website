@@ -5,6 +5,7 @@
     box-sizing: border-box;
 }
 
+
 body,
 input {
     font-family: "Poppins", sans-serif;
@@ -28,7 +29,7 @@ input {
 
 .signin-signup {
     position: absolute;
-    top: 50%;
+    top: 45%;
     transform: translate(-50%, -50%);
     left: 75%;
     width: 50%;
