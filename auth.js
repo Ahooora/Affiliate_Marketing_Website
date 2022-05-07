@@ -1,6 +1,6 @@
-const passport = require( 'passport' )
-const expressSession = require( 'express-session' )
-const LocalStrategy = require( 'passport-local' )
+const passport = require('passport')
+const expressSession = require('express-session')
+const LocalStrategy = require('passport-local')
 const { response } = require('express')
 
 module.exports = app => {
@@ -17,14 +17,14 @@ module.exports = app => {
 
     passport.use(
         new LocalStrategy((username, password, done) => {
-            if( username === 'mmusterman' && password === 'test') {
+            if (username === 'mmusterman' && password === 'test') {
                 done(null, {
                     username: 'mmusterman',
                     firstname: 'max',
                     lastname: 'musterman',
                 })
             } else {
-                done('Not allowed')
+                done(null, false)
             }
         })
     )
@@ -43,8 +43,13 @@ module.exports = app => {
         '/login',
         passport.authenticate('local', { failureRedirect: '/public/login.html' }),
         (request, response) => {
-            response.redirect('/')
-        },
+            response.redirect('/public/dashboard.html')
+        }
 
     )
+
+    app.get('/logout', (request, response) => {
+        request.logout()
+        response.redirect('/public/login.html')
+    })
 }
