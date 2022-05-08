@@ -1,9 +1,31 @@
 const passport = require('passport')
 const expressSession = require('express-session')
 const LocalStrategy = require('passport-local')
-const { response } = require('express')
+const express = require('express')
+const { ensureLoggedIn } = require('connect-ensure-login')
+const path = require('path');
 
-module.exports = app => {
+
+
+
+const start = () => {
+    const app = express()
+    app.use(function(req, res, next) {
+        res.header('Access-Control-Allow-Credentials', true);
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+        if ('OPTIONS' == req.method) {
+             res.sendStatus(200);
+         } else {
+             next();
+         }
+        });
+
+
+    app.use( express.static ('public') )
+    app.use( express.urlencoded ({ extended: false}))
+    app.use( express.json())
     passport.serializeUser((user, done) => done(null, user.username))
     passport.deserializeUser((id, done) => {
 
@@ -41,9 +63,20 @@ module.exports = app => {
 
     app.post(
         '/login',
-        passport.authenticate('local', { failureRedirect: '/public/login.html' }),
+        passport.authenticate('local', { failureRedirect: '/login' }),
         (request, response) => {
-            response.redirect('/public/dashboard.html')
+            
+            response.send('U are logged in')
+        }
+
+    )
+
+    app.get(
+        '/login',
+       
+        (request, response) => {
+            response.sendFile(path.join(__dirname, '/public/login.html'));
+            
         }
 
     )
@@ -52,4 +85,21 @@ module.exports = app => {
         request.logout()
         response.redirect('/public/login.html')
     })
+
+    app.get(
+        '/',
+        ensureLoggedIn('/login.html'),
+        (req, res) => {
+          res.redirect('./private/dashboard.html')  
+          res.send(`Willkommen als angemeldeter User!`)
+        }
+      )
+
+      
+app.listen (5000, () => {
+    console.log('Server is listening to http://localhost:5000')
+})
+
 }
+
+start()
