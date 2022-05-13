@@ -55,6 +55,8 @@ module.exports = app => {
     app.post('/', (req, res) => {
         console.log(req.body)
     })
+
+
     app.post(
         '/login', passport.authenticate('local', {
             failureRedirect: '/login.html'
