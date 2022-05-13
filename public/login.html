@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" type="text/css" href="/ali-projekt/style/style.css" />
     <title>Affiliate Place</title>
 </head>
 
@@ -13,18 +13,22 @@
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="#" class="sign-in-form">
+                <form action="/login" method="post" class="sign-in-form">
                     <h1 class="name">Affiliate Place</h1>
                     <h2 class="title">Sign in</h2>
+
+
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Username" autofocus />
+                        <input name="username" type="text" placeholder="Username" autofocus />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Password" />
+                        <input name="password" type="password" placeholder="Password" />
                     </div>
-                    <input type="submit" value="Login" class="btn solid" >
+                    <button type="submit">login</button>
+
+
                     <p class="social-text">Or Sign in with social platforms</p>
                     <div class="social-media">
                         <a href="#" class="social-icon">
@@ -56,7 +60,7 @@
                         <i class="fas fa-lock"></i>
                         <input type="password" placeholder="Password" />
                     </div>
-                    <input type="submit" class="btn" value="Sign up" />
+                    <input type="button" class="btn" value="Sign up" />
                     <p class="social-text">Or Sign up with social platforms</p>
                     <div class="social-media">
                         <a href="#" class="social-icon">
