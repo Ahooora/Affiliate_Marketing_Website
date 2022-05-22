@@ -1,7 +1,9 @@
 const passport = require('passport')
 const expressSession = require('express-session')
 const LocalStrategy = require('passport-local')
+const mangoose = require('mangoose')
 
+mongoose.connect('mongodb://localhost/<database-name>', { useNewUrlParser: true });
 
 
 module.exports = app => {
