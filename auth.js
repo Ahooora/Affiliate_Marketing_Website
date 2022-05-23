@@ -59,8 +59,12 @@ module.exports = app => {
     app.post(
         '/login', async(request, response) => {
             const user = await User.findOne({ email: request.body.username })
+            if (!user) {
+                response.status(401).send()
+                return
+            }
             if (request.body.password !== user.password) {
-                response.status(401)
+                response.status(401).send()
                 return
             }
             request.login(user, function(error) {
