@@ -1,11 +1,11 @@
 const passport = require('passport')
 const expressSession = require('express-session')
 const LocalStrategy = require('passport-local')
-const mongoose = require('mongoose')
 const User = require('./models/User')
 const bodyParser = require('body-parser')
 const express = require('express')
-const { request } = require('express')
+const bcrypt = require('bcryptjs')
+
 
 
 
@@ -40,40 +40,53 @@ module.exports = app => {
     })
 
 
-    app.post('/register', async(request, response) => {
-        try {
-            const newUser = await User.create({
-                username: request.body.username,
-                email: request.body.email,
-                password: request.body.password
+    app.post('/register', async (request, response) => {
 
+        bcrypt.genSalt(10, (error, salt) => {
+            bcrypt.hash(request.body.password, salt, async (error, hash) => {
+                if (error) throw error;
+                try {
+                    const newUser = await User.create({
+                        username: request.body.username,
+                        email: request.body.email,
+                        password: hash
+
+                    })
+                    const savedUser = await newUser.save()
+                    response.redirect(request.get('referer'))
+                } catch (error) {
+                    response.status(400).send(error)
+                }
             })
-            const savedUser = await newUser.save()
-            response.redirect(request.get('referer'))
-        } catch (error) {
-            response.status(400).send(error)
-        }
+
+        })
     })
 
 
     app.post(
-        '/login', async(request, response) => {
+        '/login', async (request, response) => {
             const user = await User.findOne({ email: request.body.username })
             if (!user) {
                 response.status(401).send()
                 return
             }
-            if (request.body.password !== user.password) {
-                response.status(401).send()
-                return
-            }
-            request.login(user, function(error) {
-                if (error) {
-                    response.redirect(request.get('referer'))
+            bcrypt.compare(request.body.password, user.password, (error, match) => {
+                if (error) throw error;
+                if (!match) {
+                    response.status(401).send()
                     return
                 }
-                return response.redirect('/success');
-            });
+                request.login(user, error => {
+                    if (error) {
+                        response.redirect(request.get('referer'))
+                        return
+                    }
+                    return response.redirect('/success');
+                });
+
+            })
+
+
 
         }
     )
