@@ -15,26 +15,34 @@
             <ul>
                 <li>
                     <a href="#">
-                        <span class="icon"><ion-icon name="rocket"></ion-icon></span>
+                        <span class="icon">
+                            <ion-icon name="rocket"></ion-icon>
+                        </span>
                         <span class="title">Affiliate Place</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                    <a href="#" id="overviewtoggle">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
                         <span class="title">Overview/Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="bag-handle-outline"></ion-icon></span>
+                    <a href="#" id="company">
+                        <span class="icon">
+                            <ion-icon name="bag-handle-outline"></ion-icon>
+                        </span>
                         <span class="title">Products/Company</span>
                     </a>
                 </li>
                 <li>
                     <!--eventuell einstellung für passwort änderung ?-->
                     <a href="/logout">
-                        <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
                         <span class="title">Sign Out</span>
                     </a>
                 </li>
@@ -60,137 +68,259 @@
                 </div>
             </div>
 
-            <!-- card übersicht -->
-            <div class="cardBox">
+            <!-- Firmen Cards -->
+            <div class="companyCards">
                 <div class="card">
                     <div>
                         <div class="numbers">1,550€</div>
-                        <div class="cardName">Total Income</div>
+                        <div class="cardName">Apple</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>
+                    <div class="cardButton">
+                        <input type="button" value="Generate Link">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="numbers">1,550€</div>
+                        <div class="cardName">Samsung</div>
                     </div>
                     <div class="iconBox">
                         <ion-icon name="cash-outline"></ion-icon>
                     </div>
                 </div>
 
-
                 <div class="card">
                     <div>
-                        <div class="numbers">5895</div>
-                        <div class="cardName">Total Clicks</div>
+                        <div class="numbers">1,550€</div>
+                        <div class="cardName">Nike</div>
                     </div>
                     <div class="iconBox">
-                        <ion-icon name="eye-outline"></ion-icon>
+                        <ion-icon name="cash-outline"></ion-icon>
                     </div>
                 </div>
 
-
                 <div class="card">
                     <div>
-                        <div class="numbers">84</div>
-                        <div class="cardName">Products</div>
+                        <div class="numbers">1,550€</div>
+                        <div class="cardName">Adidas</div>
                     </div>
                     <div class="iconBox">
-                        <ion-icon name="cart-outline"></ion-icon>
+                        <ion-icon name="cash-outline"></ion-icon>
                     </div>
                 </div>
 
-
                 <div class="card">
                     <div>
-                        <div class="numbers">1,85€</div>
-                        <div class="cardName">Ø Income per Click</div>
+                        <div class="numbers">1,550€</div>
+                        <div class="cardName">Sony</div>
                     </div>
                     <div class="iconBox">
-                        <ion-icon name="trending-up-outline"></ion-icon>
+                        <ion-icon name="cash-outline"></ion-icon>
                     </div>
                 </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers">1,550€</div>
+                        <div class="cardName">LG</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers">1,550€</div>
+                        <div class="cardName">Bose</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers">1,550€</div>
+                        <div class="cardName">Puma</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers">1,550€</div>
+                        <div class="cardName">Breitling</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers">1,550€</div>
+                        <div class="cardName">Microsoft</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers">1,550€</div>
+                        <div class="cardName">Tesla</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers">1,550€</div>
+                        <div class="cardName">Steam</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>
+                </div>
+
             </div>
 
-            <!-- payment detail liste-->
-            <div class="details">
-                <div class="recentPayment">
-                    <div class="cardHeader">
-                        <h2>Payment Status</h2>
-                        <a href="#" class="btn">View All</a>
+            <!-- card übersicht -->
+            <div id="overview">
+                <div class="cardBox">
+                    <div class="card">
+                        <div>
+                            <div class="numbers">1,550€</div>
+                            <div class="cardName">Total Income</div>
+                        </div>
+                        <div class="iconBox">
+                            <ion-icon name="cash-outline"></ion-icon>
+                        </div>
                     </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <td> Company</td>
-                                <td> Payment</td>
-                                <td> Date</td>
-                                <td> Status</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Company1</td>
-                                <td>120€</td>
-                                <td>01.01.2022</td>
-                                <td><span class="status paid">Paid</span></td>
-                            </tr>
-                            <tr>
-                                <td>Company2</td>
-                                <td>12€</td>
-                                <td>01.01.2022</td>
-                                <td><span class="status paid">Paid</span></td>
-                            </tr>
-                            <tr>
-                                <td>Company3</td>
-                                <td>8€</td>
-                                <td>01.01.2022</td>
-                                <td><span class="status in progress">in Progress</span></td>
-                            </tr>
-                            <tr>
-                                <td>Company4</td>
-                                <td>320€</td>
-                                <td>01.01.2022</td>
-                                <td><span class="status paid">Paid</span></td>
-                            </tr>
-                            <tr>
-                                <td>Company5</td>
-                                <td>180€</td>
-                                <td>01.01.2022</td>
-                                <td><span class="status pending">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>Company6</td>
-                                <td>52€</td>
-                                <td>01.01.2022</td>
-                                <td><span class="status in progress">in Progress</span></td>
-                            </tr>
-                            <tr>
-                                <td>Company7</td>
-                                <td>36€</td>
-                                <td>01.01.2022</td>
-                                <td><span class="status paid">Paid</span></td>
-                            </tr>
-                            <tr>
-                                <td>Company8</td>
-                                <td>91€</td>
-                                <td>01.01.2022</td>
-                                <td><span class="status paid">Paid</span></td>
-                            </tr>
-                            <tr>
-                                <td>Company9</td>
-                                <td>487€</td>
-                                <td>01.01.2022</td>
-                                <td><span class="status pending">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>Company10</td>
-                                <td>3€</td>
-                                <td>01.01.2022</td>
-                                <td><span class="status paid">Paid</span></td>
-                            </tr>
-                            <tr>
-                                <td>Company11</td>
-                                <td>111€</td>
-                                <td>01.01.2022</td>
-                                <td><span class="status in progress">in Progress</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+
+                    <div class="card">
+                        <div>
+                            <div class="numbers">5895</div>
+                            <div class="cardName">Total Clicks</div>
+                        </div>
+                        <div class="iconBox">
+                            <ion-icon name="eye-outline"></ion-icon>
+                        </div>
+                    </div>
+
+
+                    <div class="card">
+                        <div>
+                            <div class="numbers">84</div>
+                            <div class="cardName">Products</div>
+                        </div>
+                        <div class="iconBox">
+                            <ion-icon name="cart-outline"></ion-icon>
+                        </div>
+                    </div>
+
+
+                    <div class="card">
+                        <div>
+                            <div class="numbers">1,85€</div>
+                            <div class="cardName">Ø Income per Click</div>
+                        </div>
+                        <div class="iconBox">
+                            <ion-icon name="trending-up-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- payment detail liste-->
+                <div class="details">
+                    <div class="recentPayment">
+                        <div class="cardHeader">
+                            <h2>Payment Status</h2>
+                            <a href="#" class="btn">View All</a>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td> Company</td>
+                                    <td> Payment</td>
+                                    <td> Date</td>
+                                    <td> Status</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Company1</td>
+                                    <td>120€</td>
+                                    <td>01.01.2022</td>
+                                    <td><span class="status paid">Paid</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Company2</td>
+                                    <td>12€</td>
+                                    <td>01.01.2022</td>
+                                    <td><span class="status paid">Paid</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Company3</td>
+                                    <td>8€</td>
+                                    <td>01.01.2022</td>
+                                    <td><span class="status in progress">in Progress</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Company4</td>
+                                    <td>320€</td>
+                                    <td>01.01.2022</td>
+                                    <td><span class="status paid">Paid</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Company5</td>
+                                    <td>180€</td>
+                                    <td>01.01.2022</td>
+                                    <td><span class="status pending">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Company6</td>
+                                    <td>52€</td>
+                                    <td>01.01.2022</td>
+                                    <td><span class="status in progress">in Progress</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Company7</td>
+                                    <td>36€</td>
+                                    <td>01.01.2022</td>
+                                    <td><span class="status paid">Paid</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Company8</td>
+                                    <td>91€</td>
+                                    <td>01.01.2022</td>
+                                    <td><span class="status paid">Paid</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Company9</td>
+                                    <td>487€</td>
+                                    <td>01.01.2022</td>
+                                    <td><span class="status pending">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Company10</td>
+                                    <td>3€</td>
+                                    <td>01.01.2022</td>
+                                    <td><span class="status paid">Paid</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Company11</td>
+                                    <td>111€</td>
+                                    <td>01.01.2022</td>
+                                    <td><span class="status in progress">in Progress</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -209,7 +339,7 @@
         let navigation = document.querySelector('.navigation');
         let main = document.querySelector('.main');
 
-        toggle.onclick = function() {
+        toggle.onclick = function () {
             navigation.classList.toggle('active');
             main.classList.toggle('active');
         }
@@ -226,6 +356,20 @@
         }
         list.forEach((item) =>
             item.addEventListener('mouseover', activeLink));
+
+        document.querySelector('#company').onclick = function () {
+
+            let company = document.querySelector('.companyCards').style.display = 'grid';
+
+            document.querySelector('#overview').setAttribute('hidden', 'true');
+
+        }
+        document.querySelector('#overviewtoggle').onclick = function () {
+
+            document.querySelector('.companyCards').style.display = 'none';
+
+            document.querySelector('#overview').removeAttribute('hidden');
+        }
     </script>
 </body>
 

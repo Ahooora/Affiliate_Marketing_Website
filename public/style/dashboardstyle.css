@@ -224,6 +224,8 @@ body {
     grid-gap: 30px;
 }
 
+
+
 .cardBox .card {
     position: relative;
     background: var(--white);
@@ -262,6 +264,26 @@ body {
 .cardBox .card:hover .cardName {
     color: var(--white);
 }
+
+.companyCards {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: none;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px;
+}
+
+.companyCards .card {
+    position: relative;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+}
+
 
 .details {
     position: relative;
