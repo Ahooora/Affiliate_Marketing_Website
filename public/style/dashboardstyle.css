@@ -284,6 +284,13 @@ body {
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
 }
 
+.companyCards .card .cardName {
+    position: relative;
+    font-weight: 500;
+    font-size: 1.1em;
+    color: var(--blue);
+}
+
 
 .details {
     position: relative;
