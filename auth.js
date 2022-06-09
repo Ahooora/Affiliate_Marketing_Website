@@ -24,7 +24,7 @@ module.exports = app => {
         resave: false,
         saveUninitialized: false,
         cookie: {
-            maxAge: 2 * 60 * 1000
+            maxAge: 60 * 60 * 1000
         }
     }))
 
@@ -40,10 +40,10 @@ module.exports = app => {
     })
 
 
-    app.post('/register', async (request, response) => {
+    app.post('/register', async(request, response) => {
 
         bcrypt.genSalt(10, (error, salt) => {
-            bcrypt.hash(request.body.password, salt, async (error, hash) => {
+            bcrypt.hash(request.body.password, salt, async(error, hash) => {
                 if (error) throw error;
                 try {
                     const newUser = await User.create({
@@ -64,7 +64,7 @@ module.exports = app => {
 
 
     app.post(
-        '/login', async (request, response) => {
+        '/login', async(request, response) => {
             const user = await User.findOne({ email: request.body.username })
             if (!user) {
                 response.status(401).send()

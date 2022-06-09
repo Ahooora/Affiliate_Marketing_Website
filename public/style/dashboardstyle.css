@@ -224,8 +224,6 @@ body {
     grid-gap: 30px;
 }
 
-
-
 .cardBox .card {
     position: relative;
     background: var(--white);
@@ -290,7 +288,6 @@ body {
     font-size: 1.1em;
     color: var(--blue);
 }
-
 
 .details {
     position: relative;
