@@ -1,28 +1,21 @@
 const mongoose = require("mongoose")
 const CompanySchema = new mongoose.Schema({
-    companyName: {
+    name: {
         type: String,
+        unique: true,
         required: true,
         trim: true
-
     },
-    clicksNum: {
-        type: Number,
-        required: true
-    },
-    link: {
+    description: {
         type: String,
-        required: true,
-        unique: true
+        default: ""
     },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-
+    logo: {
+        type: String,
+        default: ""
     }
+
 })
-CompanySchema.index({ link: 1 }, { unique: true })
 
 
-module.exports = mongoose.model("Company", CompanySchema)
+module.exports = mongoose.model("company", CompanySchema)

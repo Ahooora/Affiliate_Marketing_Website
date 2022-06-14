@@ -289,6 +289,11 @@ body {
     color: var(--blue);
 }
 
+.logo {
+    width: 25px;
+    height: 25px;
+}
+
 .details {
     position: relative;
     width: 100%;
