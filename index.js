@@ -7,16 +7,19 @@ const companyLinksModel = require('./models/CompanyLinks')
 const companyModel = require('./models/Company')
 const generateRandomId = require('./util/generateRandomId')
 
+// Server configuration
 app.listen(5000, () => {
     console.log('Server is listening to http://localhost:5000')
 })
 
+// Database configuration
 const db = require('./config/key').MongoURI
 
 mongoose.connect(db, { useNewUrlParser: true })
     .then(() => console.log('MongoDB Connected...'))
     .catch(error => console.log(error))
 
+// Routes
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: false }))
 
@@ -28,6 +31,23 @@ app.get('/success', (request, response) => {
     response.sendFile(__dirname + '/private/dashboard.html')
 })
 
+// Create a new company
+
+app.get('/companies', ensureLoggedIn('/login.html'), async(request, response) => {
+
+        try {
+            const companies = await companyModel.find()
+            response.send(companies)
+
+        } catch (error) {
+            response.status(500).send(error)
+
+        }
+    }
+
+)
+
+// Generate a random link
 app.post('/generate-link', ensureLoggedIn('/login.html'), async(request, response) => {
     if (!request.user) {
         response.redirect('/login.html')
@@ -56,20 +76,8 @@ app.post('/generate-link', ensureLoggedIn('/login.html'), async(request, respons
     }
 })
 
-app.get('/companies', ensureLoggedIn('/login.html'), async(request, response) => {
 
-        try {
-            const companies = await companyModel.find()
-            response.send(companies)
-
-        } catch (error) {
-            response.status(500).send(error)
-
-        }
-    }
-
-)
-
+// Count the clicks
 app.get('/count-click', ensureLoggedIn('/login.html'), async(request, response) => {
     try {
         const companyLinks = await companyLinksModel.find({
@@ -86,6 +94,7 @@ app.get('/count-click', ensureLoggedIn('/login.html'), async(request, response) 
 
 })
 
+// Get company links
 app.get('/company-links', ensureLoggedIn('/login.html'), async(request, response) => {
     try {
         const companiesIds = await companyModel.find().select('_id')
