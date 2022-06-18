@@ -87,8 +87,8 @@
 
                     <div class="card">
                         <div>
-                            <div  id="totalClicks" class="numbers">0</div>
-                            <div  class="cardName">Total Clicks</div>
+                            <div id="totalClicks" class="numbers">0</div>
+                            <div class="cardName">Total Clicks</div>
                         </div>
                         <div class="iconBox">
                             <ion-icon name="eye-outline"></ion-icon>
@@ -216,47 +216,47 @@
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-    <script >
+    <script>
         // Menutoggle
-        let toggle = document.querySelector('.toggle');
-        let navigation = document.querySelector('.navigation');
-        let main = document.querySelector('.main');
+        let toggle = document.querySelector('.toggle')
+        let navigation = document.querySelector('.navigation')
+        let main = document.querySelector('.main')
 
-        toggle.onclick = function () {
-            navigation.classList.toggle('active');
-            main.classList.toggle('active');
+        toggle.onclick = function() {
+            navigation.classList.toggle('active')
+            main.classList.toggle('active')
         }
 
 
 
         // add hovered class in selected list item
-        let list = document.querySelectorAll('.navigation li');
+        let list = document.querySelectorAll('.navigation li')
 
         function activeLink() {
             list.forEach((item) =>
-                item.classList.remove('hovered'));
-            this.classList.add('hovered');
+                item.classList.remove('hovered'))
+            this.classList.add('hovered')
         }
         list.forEach((item) =>
-            item.addEventListener('mouseover', activeLink));
+            item.addEventListener('mouseover', activeLink))
 
-        document.querySelector('#company').onclick = function () {
+        document.querySelector('#company').onclick = function() {
 
-            let company = document.querySelector('.companyCards').style.display = 'grid';
+            let company = document.querySelector('.companyCards').style.display = 'grid'
 
-            document.querySelector('#overview').setAttribute('hidden', 'true');
+            document.querySelector('#overview').setAttribute('hidden', 'true')
 
         }
-        document.querySelector('#overviewtoggle').onclick = function () {
+        document.querySelector('#overviewtoggle').onclick = function() {
 
-            document.querySelector('.companyCards').style.display = 'none';
+            document.querySelector('.companyCards').style.display = 'none'
 
-            document.querySelector('#overview').removeAttribute('hidden');
+            document.querySelector('#overview').removeAttribute('hidden')
         }
 
         async function generateLink(companyId) {
             try {
-                await axios.post('/generate-link', {
+                const newLink = await axios.post('/generate-link', {
                     companyId
                 }, {
                     headers: {
@@ -264,11 +264,36 @@
                     },
                     withCredentials: true
                 })
+                const companyInputElement = document.getElementById(newLink.data.companyId)
+
+                if (companyInputElement.value) {
+                    window.open(newLink.data.link, "_blank")
+                }
+                companyInputElement.value = newLink.data.link
+                companyInputElement.addEventListener("click", (event) => {
+                    event.stopPropagation()
+                })
+                await fetchCountClicks()
             } catch (error) {
                 console.log(error)
             }
         }
         const companyCardsElement = document.getElementsByClassName('companyCards')[0]
+
+        async function fetchCompanieLinks() {
+            try {
+                const companyLinks = await axios.get('/company-links', null, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                })
+                return companyLinks.data
+            } catch (error) {
+                return []
+            }
+        }
+
         async function fetchCompanies() {
             try {
                 const companies = await axios.get('/companies', null, {
@@ -283,49 +308,51 @@
         }
         async function renderCompanies() {
             const companyData = await fetchCompanies()
-            console.log(companyData)
-
+            const companyLinks = await fetchCompanieLinks()
 
 
             let companyCardsTemplate = ''
             companyData.forEach((companyInfo) => {
+                const link = companyLinks.find((cl) => cl.companyId === companyInfo._id)
+
                 companyCardsTemplate += `
-        <button onclick="generateLink('${companyInfo._id}')" class="companyLinks">
+                <div onclick="generateLink('${companyInfo._id}')" class="companyLinks">
                     <div class="card">
                         <div>
                             <div class="numbers">1,550€</div>
                             <div class="cardName">${companyInfo.name}</div>
+                            <input id="${companyInfo._id}" type="text" value="${link?.link || ''}" />
                         </div>
                         <div class="iconBox">
                             <img class="logo" src="${companyInfo.logo}">
                         </div>
-                        <div class="cardButton">
-                            <input type="button" value="Generate Link">
-                        </div>
+                        
                     </div>
-                </button>
+                </div>
                 `
             })
             companyCardsElement.innerHTML = companyCardsTemplate
         }
 
-        renderCompanies()
 
-         async function fetchClicks() {
+
+        async function fetchCountClicks() {
             try {
-              const result = await axios.get('/count-click', null, {
+                const result = await axios.get('/count-click', null, {
                     headers: {
                         accept: 'application/json'
                     },
                     withCredentials: true
                 })
                 document.getElementById('totalClicks').textContent = result.data.count
-            
+
             } catch (error) {
                 console.log(error)
             }
         }
-        fetchClicks()
+
+        renderCompanies()
+        fetchCountClicks()
     </script>
 </body>
 

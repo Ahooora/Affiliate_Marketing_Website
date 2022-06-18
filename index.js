@@ -28,7 +28,7 @@ app.get('/success', (request, response) => {
     response.sendFile(__dirname + '/private/dashboard.html')
 })
 
-app.post('/generate-link', ensureLoggedIn('/login.html'), async (request, response) => {
+app.post('/generate-link', ensureLoggedIn('/login.html'), async(request, response) => {
     if (!request.user) {
         response.redirect('/login.html')
         return
@@ -45,42 +45,57 @@ app.post('/generate-link', ensureLoggedIn('/login.html'), async (request, respon
                 clicksNum: 0
             })
             await company.save()
+            response.send(company)
+            return
         }
 
-        company = await companyLinksModel.findOneAndUpdate({ userId: request.user._id, companyName: request.body.companyName }, { $inc: { clicksNum: 1 } }, { new: true })
-
+        company = await companyLinksModel.findOneAndUpdate({ userId: request.user._id, companyId: request.body.companyId }, { $inc: { clicksNum: 1 } }, { new: true })
         response.send(company)
     } catch (error) {
         console.log(error)
     }
 })
 
-app.get('/companies', ensureLoggedIn('/login.html'), async (request, response) => {
+app.get('/companies', ensureLoggedIn('/login.html'), async(request, response) => {
 
-    try {
-        const companies = await companyModel.find()
-        response.send(companies)
+        try {
+            const companies = await companyModel.find()
+            response.send(companies)
 
-    } catch (error) {
-        response.status(500).send(error)
+        } catch (error) {
+            response.status(500).send(error)
 
+        }
     }
-}
 
 )
 
 app.get('/count-click', ensureLoggedIn('/login.html'), async(request, response) => {
     try {
-        const companyLinks = await companyLinksModel.find({ 
+        const companyLinks = await companyLinksModel.find({
             userId: request.user._id
         })
         const count = companyLinks.reduce((acc, companyLinks) => {
-          acc+= companyLinks.clicksNum
-          return acc
+            acc += companyLinks.clicksNum
+            return acc
         }, 0)
         response.send({ count })
     } catch (error) {
         response.status(500).send(error)
     }
 
+})
+
+app.get('/company-links', ensureLoggedIn('/login.html'), async(request, response) => {
+    try {
+        const companiesIds = await companyModel.find().select('_id')
+        const companieLinks = await companyLinksModel.find({
+            userId: request.user._id,
+            companyId: { $in: companiesIds.map(companyId => companyId._id.toString()) }
+
+        })
+        response.send(companieLinks)
+    } catch (error) {
+        response.status(500).send(error)
+    }
 })
