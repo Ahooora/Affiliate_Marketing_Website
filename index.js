@@ -3,108 +3,58 @@ const { ensureLoggedIn } = require('connect-ensure-login')
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
-const companyLinksModel = require('./models/CompanyLinks')
-const companyModel = require('./models/Company')
-const generateRandomId = require('./util/generateRandomId')
 
-// Server configuration
-app.listen(5000, () => {
-    console.log('Server is listening to http://localhost:5000')
-})
 
-// Database configuration
-const db = require('./config/key').MongoURI
+const GenerateLinkController = require('./controllers/GenerateLinkController')
+const CountClicksController = require('./controllers/CountClicksController')
+const GetCompanyController = require('./controllers/GetCompanyController')
+const CreateCompanyController = require('./controllers/CreateCompanyController')
+const TotalIncomeController = require('./controllers/TotalIncomeController')
 
-mongoose.connect(db, { useNewUrlParser: true })
-    .then(() => console.log('MongoDB Connected...'))
-    .catch(error => console.log(error))
 
-// Routes
-app.use(express.static('public'))
-app.use(express.urlencoded({ extended: false }))
+    async function startServer() {
 
-auth(app)
-
-app.use('/success', ensureLoggedIn('/login.html'))
-app.use('/success', express.static('private'))
-app.get('/success', (request, response) => {
-    response.sendFile(__dirname + '/private/dashboard.html')
-})
-
-// Create a new company
-
-app.get('/companies', ensureLoggedIn('/login.html'), async(request, response) => {
-
-        try {
-            const companies = await companyModel.find()
-            response.send(companies)
-
-        } catch (error) {
-            response.status(500).send(error)
-
-        }
-    }
-
-)
-
-// Generate a random link
-app.post('/generate-link', ensureLoggedIn('/login.html'), async(request, response) => {
-    if (!request.user) {
-        response.redirect('/login.html')
-        return
-    }
-
-    let company
-    try {
-        company = await companyLinksModel.findOne({ userId: request.user._id, companyId: request.body.companyId })
-        if (!company) {
-            company = new companyLinksModel({
-                companyId: request.body.companyId,
-                userId: request.user._id,
-                link: `https://www.google.com/?q=${generateRandomId()}`,
-                clicksNum: 0
-            })
-            await company.save()
-            response.send(company)
-            return
+        // Database configuration
+        const db = require('./config/key').MongoURI
+        const connectionResult = await mongoose.connect(db, { useNewUrlParser: true })
+        if (connectionResult.connection.readyState === 1) {
+            console.log('MongoDB is connected')
+        } else {
+            throw new Error('MongoDB is not connected')
         }
 
-        company = await companyLinksModel.findOneAndUpdate({ userId: request.user._id, companyId: request.body.companyId }, { $inc: { clicksNum: 1 } }, { new: true })
-        response.send(company)
-    } catch (error) {
-        console.log(error)
-    }
-})
 
+        // Routes
+        app.use(express.static('public'))
+        app.use(express.urlencoded({ extended: false }))
 
-// Count the clicks
-app.get('/count-click', ensureLoggedIn('/login.html'), async(request, response) => {
-    try {
-        const companyLinks = await companyLinksModel.find({
-            userId: request.user._id
+        auth(app)
+
+        app.use('/success', ensureLoggedIn('/login.html'))
+        app.use('/success', express.static('private'))
+        app.get('/success', (request, response) => {
+            response.sendFile(__dirname + '/private/dashboard.html')
         })
-        const count = companyLinks.reduce((acc, companyLinks) => {
-            acc += companyLinks.clicksNum
-            return acc
-        }, 0)
-        response.send({ count })
-    } catch (error) {
-        response.status(500).send(error)
-    }
 
-})
+        // Create a new company
+        app.get('/companies', ensureLoggedIn('/login.html'), CreateCompanyController)
 
-// Get company links
-app.get('/company-links', ensureLoggedIn('/login.html'), async(request, response) => {
-    try {
-        const companiesIds = await companyModel.find().select('_id')
-        const companieLinks = await companyLinksModel.find({
-            userId: request.user._id,
-            companyId: { $in: companiesIds.map(companyId => companyId._id.toString()) }
+        // Get company links
+        app.get('/company-links', ensureLoggedIn('/login.html'), GetCompanyController)
 
+        // Count the clicks
+        app.get('/count-click', ensureLoggedIn('/login.html'), CountClicksController)
+
+        // Generate a random link
+        app.post('/generate-link', ensureLoggedIn('/login.html'), GenerateLinkController)
+
+        // Get total income
+        app.get('/total-income', ensureLoggedIn('/login.html'), TotalIncomeController)
+
+        
+        // Server configuration
+        app.listen(5000, () => {
+            console.log('Server is listening to http://localhost:5000')
         })
-        response.send(companieLinks)
-    } catch (error) {
-        response.status(500).send(error)
     }
-})
+    startServer()

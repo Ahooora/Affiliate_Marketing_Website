@@ -76,7 +76,7 @@
                 <div class="cardBox">
                     <div class="card">
                         <div>
-                            <div class="numbers">1,550€</div>
+                            <div class="numbers" id="totalIncome">1,550€</div>
                             <div class="cardName">Total Income</div>
                         </div>
                         <div class="iconBox">
@@ -109,7 +109,7 @@
 
                     <div class="card">
                         <div>
-                            <div class="numbers">1,85€</div>
+                            <div class="numbers" id="averageIncome">1,85€</div>
                             <div class="cardName">Ø Income per Click</div>
                         </div>
                         <div class="iconBox">
@@ -221,8 +221,10 @@
         let toggle = document.querySelector('.toggle')
         let navigation = document.querySelector('.navigation')
         let main = document.querySelector('.main')
+        let totalIncome = 0
+        let totalClicks = 0
 
-        toggle.onclick = function() {
+        toggle.onclick = function () {
             navigation.classList.toggle('active')
             main.classList.toggle('active')
         }
@@ -240,14 +242,14 @@
         list.forEach((item) =>
             item.addEventListener('mouseover', activeLink))
 
-        document.querySelector('#company').onclick = function() {
+        document.querySelector('#company').onclick = function () {
 
             let company = document.querySelector('.companyCards').style.display = 'grid'
 
             document.querySelector('#overview').setAttribute('hidden', 'true')
 
         }
-        document.querySelector('#overviewtoggle').onclick = function() {
+        document.querySelector('#overviewtoggle').onclick = function () {
 
             document.querySelector('.companyCards').style.display = 'none'
 
@@ -306,9 +308,23 @@
                 return []
             }
         }
+        const averageIncome = function () {
+
+            const result = totalIncome / totalClicks 
+            console.log("result", result)
+            console.log("totalIncome", totalIncome)
+            console.log("totalClicks", totalClicks)
+            document.getElementById('averageIncome').textContent = result
+        }
+       
+
+
         async function renderCompanies() {
             const companyData = await fetchCompanies()
             const companyLinks = await fetchCompanieLinks()
+            totalIncome = await fetchTotalIncome()
+            totalClicks = await fetchCountClicks()
+            averageIncome()
 
 
             let companyCardsTemplate = ''
@@ -321,7 +337,7 @@
                         <div>
                             <div class="numbers">1,550€</div>
                             <div class="cardName">${companyInfo.name}</div>
-                            <input id="${companyInfo._id}" type="text" value="${link?.link || ''}" />
+                            <input class="link-input" id="${companyInfo._id}" type="text" value="${link?.link || ''}" />
                         </div>
                         <div class="iconBox">
                             <img class="logo" src="${companyInfo.logo}">
@@ -344,15 +360,41 @@
                     },
                     withCredentials: true
                 })
+
                 document.getElementById('totalClicks').textContent = result.data.count
+                return result.data.count
 
             } catch (error) {
                 console.log(error)
             }
         }
 
+        async function fetchTotalIncome() {
+            try {
+                const result = await axios.get('/total-income', null, {
+                    headers: {
+                        accept: 'application/json'
+                    },
+                    withCredentials: true
+                })
+
+                document.getElementById('totalIncome').textContent = result.data.totalIncomePerUser
+                return result.data.totalIncomePerUser
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+
+        fetchTotalIncome()
         renderCompanies()
         fetchCountClicks()
+
+
+
+
+        
+
     </script>
 </body>
 

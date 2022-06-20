@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+
 const CompanyLinksSchema = new mongoose.Schema({
     companyId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -25,4 +26,4 @@ const CompanyLinksSchema = new mongoose.Schema({
 CompanyLinksSchema.index({ link: 1 }, { unique: true })
 
 
-module.exports = mongoose.model("companylinks", CompanyLinksSchema)
+module.exports =  mongoose.model("CompanyLinks", CompanyLinksSchema)

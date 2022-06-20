@@ -13,8 +13,11 @@ const CompanySchema = new mongoose.Schema({
     logo: {
         type: String,
         default: ""
+    },
+    pricePerClick: {
+        type: Number,
+        default: 0,
     }
-
 })
 
 

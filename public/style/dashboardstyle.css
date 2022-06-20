@@ -300,6 +300,10 @@ body {
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
 }
 
+.companyLinks input {
+    width: fit-content;
+}
+
 .logo {
     width: 25px;
     height: 25px;
