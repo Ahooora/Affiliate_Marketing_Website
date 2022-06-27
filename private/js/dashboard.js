@@ -1,4 +1,4 @@
-// Menutoggle
+
 let toggle = document.querySelector('.toggle')
 let navigation = document.querySelector('.navigation')
 let main = document.querySelector('.main')
@@ -13,8 +13,6 @@ toggle.onclick = function () {
 
 const companyCardsElement = document.getElementsByClassName('companyCards')[0]
 
-
-// add hovered class in selected list item
 
 function $(cssSelector) {
     if(cssSelector.includes("#")) return document.getElementById(cssSelector.substring(1))
@@ -123,7 +121,7 @@ async function renderCompanies() {
                 <div onclick="generateLink('${companyInfo._id}')" class="companyLinks">
                     <div class="card">
                         <div>
-                            <div class="numbers">1,550€</div>
+                            <div class="numbers">${companyInfo.pricePerClick/100}€</div>
                             <div class="cardName">${companyInfo.name}</div>
                             <input class="link-input" id="${companyInfo._id}" type="text" value="${link?.link || ''}" />
                         </div>

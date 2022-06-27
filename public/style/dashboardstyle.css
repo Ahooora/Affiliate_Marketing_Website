@@ -282,6 +282,10 @@ body {
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
 }
 
+.link-input {
+    border-radius: 10px;
+}
+
 .companyCards .card .cardName {
     position: relative;
     font-weight: 500;
