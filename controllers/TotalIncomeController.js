@@ -4,29 +4,30 @@ const companyLinksModel = require('../models/CompanyLinks')
 const TotalIncomeController = async (request, response) => {
     try {
         const companies = await companyModel.find()
+        const companyLinks = await companyLinksModel.find({
+            userId: request.user._id,
+        })
         
         const totalPrice = companies.reduce((acc, company) => {
-            
-            acc += company.pricePerClick
-            
+            const OneCompanyLink = companyLinks.find((singleCompanyLink) => singleCompanyLink.companyId._id.toString() === company._id.toString())
+
+            acc += (company.pricePerClick * OneCompanyLink?.clicksNum || 0)
+           
             return acc
-        },0)
-         const companyLinks = await companyLinksModel.find({
-            userId: request.user._id
-        })
-        const totalClicksPerUser = companyLinks.reduce((acc, company) => {
-            
-            acc += company.clicksNum * (companies.find(company => company._id.toString() === company.companyId)?.pricePerClick||0)/100
-            
-            return acc
-        },0)
+        }, 0)
         
-        response.send( {totalIncomePerUser: ((totalPrice/100) * totalClicksPerUser).toFixed(2)} )
-       
+        const totalClicksPerUser = companyLinks.reduce((acc, companyLink) => {
+            acc += companyLink?.clicksNum || 0
+            return acc
+        }, 0)
+        
+        response.send({ totalIncomePerUser: (totalPrice / 100).toFixed(2) })
+
 
     }
 
     catch (error) {
+        console.log(error)
         response.status(500).send(error)
     }
 }
