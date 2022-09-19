@@ -4,7 +4,8 @@ const LocalStrategy = require('passport-local')
 const User = require('./models/User')
 const bodyParser = require('body-parser')
 const express = require('express')
-const bcrypt = require('bcryptjs')
+
+const bcrypt = require('bcryptjs') 
 
 
 
